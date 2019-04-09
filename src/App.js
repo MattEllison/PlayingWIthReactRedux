@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import Count from './Count'
+
+
+const testReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'ADD':
+      return state + action.Count;
+    case 'SUBTRACT':
+      return state - action.Count - 1;
+    default:
+      return state;
+  }
+};
+
+export const actionCreator = (count) => ({
+  type: 'ADD',
+  Count: count
+})
+
+let store = createStore(testReducer);
+
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          <header >
+
+            App
+          </header>
+          <div>
+            <Count />
+          </div>
+        </div>
+      </Provider>
     );
   }
 }
